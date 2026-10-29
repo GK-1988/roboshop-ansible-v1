@@ -34,18 +34,18 @@
     action: create
 
   #componenets to manage:
-  instances:
-    -mongodb
-    -redis
-    -mysql
-    -rabbitmq
-    -frontend
-    -catalogue
-    -user
-    -cart
-    -payement
-    -shipping
-    -dispense
+    instances:
+      -mongodb
+      -redis
+      -mysql
+      -rabbitmq
+      -frontend
+      -catalogue
+      -user
+      -cart
+      -payement
+      -shipping
+      -dispense
 
   #AWS image
   ami_id: ami-0055977a6e828a4f4
