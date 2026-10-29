@@ -51,7 +51,7 @@
         amazon.aws.ec2_instance:
           name: "roboshop-{{ item }}"
           image_id: "{{ ami_id }}"
-          instance_type: "{{ intance_type }}"
+          instance_type: "{{ instance_type }}"
 
           security_groups:
             - roboshop-common
