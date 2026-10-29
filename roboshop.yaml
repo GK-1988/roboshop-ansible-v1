@@ -21,7 +21,6 @@
 #   -e "action=delete"
 #
 # ============================================================================
-
 - name: Manage Roboshop Infrasturce 
   hosts: local
   connection: local
@@ -87,7 +86,7 @@
           record: "{{ item }}.{{ domain_name }}"
           type: A
           ttl: 1
-        loop: {{ instances }}
+        loop: "{{ instances }}"
         when: action == "delete"
 
 
