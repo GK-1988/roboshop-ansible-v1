@@ -1,0 +1,87 @@
+---
+# ============================================================================
+# Playbook: roboshop-ec2-route53.yaml
+#
+# Purpose:
+#   1. Create EC2 instances for Roboshop components
+#   2. Create Route53 DNS records pointing to those instances
+#   3. Delete DNS records and EC2 instances when required
+#
+# Examples:
+#
+# Create all components
+# ansible-playbook roboshop-ec2-route53.yaml
+#
+# Create specific components
+# ansible-playbook roboshop-ec2-route53.yaml \
+#   -e "instances=['mongodb','redis']"
+#
+# Delete all resources
+# ansible-playbook roboshop-ec2-route53.yaml \
+#   -e "action=delete"
+#
+# ============================================================================
+
+- name: Manage Roboshop Infrasturce 
+  hosts: local
+  connection: local
+  gather_facts: false
+
+  vars:
+  #Action can be:
+  #create
+  #delete
+    action: create
+
+  #componenets to manage:
+  instances:
+    -mongodb
+    -redis
+    -mysql
+    -rabbitmq
+    -frontend
+    -catalogue
+    -user
+    -cart
+    -payement
+    -shipping
+    -dispense
+
+  #AWS image
+  ami_id: ami-0055977a6e828a4f4
+
+  #Route53 Hosted Zone
+  domain_name: opsify.online
+
+  #AWS Region
+  aws_region: us-east-1
+#EC2 Instance Size
+  instance_type: t3.micro
+
+  tasks:
+    # TASK-1 -Create EC2 Instance
+      - name: create EC2 Instances
+        amazon.aws.ec2_instance:
+          name: "roboshop-{{ iteam }}"
+          image_id: "{{ ami_id }}"
+          instance_type: "{{ intance_type }}"
+
+          security_groups:
+            - roboshop-common
+            - roboshop-{{ item }}
+
+          region: "{{ aws_region }}"
+        loop: "{{ instances }}"
+        when: action == "create"
+        register: ec2_output
+        
+
+
+
+
+
+
+
+
+
+  
