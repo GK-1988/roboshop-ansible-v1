@@ -49,7 +49,7 @@
     # TASK-1 -Create EC2 Instance
       - name: create EC2 Instances
         amazon.aws.ec2_instance:
-          name: "roboshop-{{ iteam }}"
+          name: "roboshop-{{ item }}"
           image_id: "{{ ami_id }}"
           instance_type: "{{ intance_type }}"
 
