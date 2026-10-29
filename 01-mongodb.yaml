@@ -8,8 +8,8 @@
         src: mongo.repo
         dest: /etc/yum.repos.d/mongo.repo
         
-- name: Install mongodb server
-  package:
-    name: mongodb-org
-    state: present
+    - name: Install mongodb server  
+      package:
+        name: mongodb-org
+        state: present
 
