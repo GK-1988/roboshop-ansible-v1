@@ -61,6 +61,11 @@
         loop: "{{ instances }}"
         when: action == "create"
         register: ec2_output
+# Debug task for better understand
+      - name: Display EC2 instance Creation output
+        debug:
+          var: "ec2_output"
+        when: action == "create"     
 
 
 
