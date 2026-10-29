@@ -62,10 +62,10 @@
         when: action == "create"
         register: ec2_output
 # Debug task for better understand
-      - name: Display EC2 instance Creation output
-        debug:
-          var: "ec2_output"
-        when: action == "create"   
+      # - name: Display EC2 instance Creation output
+      #   debug:
+      #     var: "ec2_output"
+      #   when: action == "create"   
 
 # Create Rout53 DNS Records
       - name: Create Route53 DNS records
