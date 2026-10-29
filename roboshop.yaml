@@ -67,7 +67,7 @@
           var: "ec2_output"
         when: action == "create"   
 
-#Create Rout53 DNS Records
+# Create Rout53 DNS Records
       - name: Create Route53 DNS records
         amazon.aws.route53:
           state: present
@@ -79,7 +79,18 @@
           overwrite: true
         loop: "{{ ec2_output.results }}"
         when: action == "create"
-        
+# Delete Rote53 Records
+      - name: Delete Route53 Records
+        amazon.aws.route53:
+          state: abesent
+          zone: "{{ domain_name }}"
+          record: "{{ item }}.{{ domain_name }}"
+          type: A
+          ttl: 1
+        loop: {{ instances }}
+        when: action == "delete"
+
+
       
 
 
