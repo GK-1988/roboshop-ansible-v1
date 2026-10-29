@@ -65,7 +65,24 @@
       - name: Display EC2 instance Creation output
         debug:
           var: "ec2_output"
-        when: action == "create"     
+        when: action == "create"   
+
+#Create Rout53 DNS Records
+      - name: Create Route53 DNS records
+        amazon.aws.route53:
+          state: present
+          zone: "{{ domain_name }}"
+          record: "{{ item.item }}.{{ domain_name }}"
+          type: A
+          ttl: 1
+          value: "{{ item.instances[0].private_ip_address }}"
+          overwrite: true
+        loop: "{{ ec2_output.results }}"
+        when: action == "create"
+        
+      
+
+
 
 
 
