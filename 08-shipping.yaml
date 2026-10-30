@@ -83,7 +83,11 @@
     - name: copy shipping service file
       ansible.builtin.template:
         src: shipping.service.j2
-        dest: /etc/systemd/system/shipping.service  
+        dest: /etc/systemd/system/shipping.service
+
+    - name: reload the daemon
+      systemd_service:
+        daemon_reload: true
 
     - name: Install Mysql Clinet
       ansible.builtin.dnf:
@@ -101,10 +105,6 @@
         mysql -h {{ mysql_host }} -uroot -p{{ mysql_root_password }} < /app/db/app-user.sql
       args:
         executable: /bin/bash
-
-    - name: reload the daemon
-      systemd_service:
-        daemon_reload: true
 
     - name: start and enable shipping service
       systemd_service:
