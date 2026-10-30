@@ -18,7 +18,7 @@
 
     - name: start and enable rabbitmq server
       service: 
-        name: rabbitmq
+        name: rabbitmq-server
         state: started
         enabled: yes
 
@@ -31,7 +31,7 @@
         write_priv: .*
         read_priv: .*
         state: present
-        
+
 
 
 
