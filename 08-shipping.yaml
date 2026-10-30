@@ -96,7 +96,7 @@
 
     - name: Load shipping schema
       ansible.builtin.shell:
-        mysql -h {{ mysql_host }} -uroot -p{{ mysql_root_password }} < /app/schema/shipping.sql
+        mysql -h {{ mysql_host }} -uroot -p{{ mysql_root_password }} < /app/db/master-data.sql
       register: schema_load
       changed_when: schema_load.rc == 0
 
