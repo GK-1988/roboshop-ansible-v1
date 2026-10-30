@@ -1,0 +1,11 @@
+ansible_user: ec2-user
+ansible_password: DevOps321
+mongodb_host: mongodb.opsify.online
+redis_host: redis.opsify.online
+mysql_host: mysql.opsify.online
+rabbitmq_host: rabbitmq.opsify.online
+catalogue_host: catalogue.opsify.online
+user_host: user.opsify.online
+cart_host: cart.opsify.online
+shipping_host: shipping.opsify.online
+payment_host: payment.opsify.online
