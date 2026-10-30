@@ -1,0 +1,37 @@
+---
+- name: configure mysql server
+  hosts: mysql
+  become: yes
+  tasks:
+    - name: enable mysql 8.4
+      command: dnf module enable mysql:8.4 -y
+
+    - name: install mysql server
+      dnf:
+        name: mysql-server
+        state: present
+
+    - name: enable and start mysql
+      service:
+        name: mysqld
+        state: started
+        enabled: yes
+
+    - name: setup mysql root password
+      community.mysql.mysql_user:
+        name: root
+        host: localhost
+        password: "{{ mysql_root_password }}"
+        check_implicit_admin: true
+        state: present
+
+    # - name: set mysql root user password
+    #   command: mysql_secure_installation --set-root-pass "{{ mysql_root_password }}"
+# mising collection
+# mysql_user belongs to the community.mysql collection
+# ansible-galaxy collection install community.mysql
+# Missing Python MySQL library on target host
+# sudo dnf install python3-PyMySQL
+
+
+        
