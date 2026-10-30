@@ -16,7 +16,7 @@
     - debug:
         var: python_default.stdout
 
-        
+
     - name: create roboshop system user
       user:
         name: roboshop
@@ -41,7 +41,7 @@
         path: /app
         state: directory
 
-    - name: download payemtn application
+    - name: download paymen application
       get_url:
         url: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/payment-{{ app_version }}.zip
         dest: /tmp/payment.zip
