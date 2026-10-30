@@ -67,11 +67,18 @@
       args:
         chdir: /app
 
-    - name: rename jar file
-      ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
-      args:
-        chdir: /app
+    - name: check generated file
+      shell: ls-ltr /app/target
+      register: output
+      debug:
+        var: output.stdout_lines
 
+    - name: rename jar file
+      copy:
+        src: /app/target/shipping.jar
+        dest: /app/shipping.jar
+        remote_src: yes 
+      
 
     - name: copy shipping service file
       ansible.builtin.template:
