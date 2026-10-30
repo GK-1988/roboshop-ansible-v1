@@ -34,7 +34,7 @@
 #debugging of ec2 creation
     - name: display ec2 creation output
       debug:
-        vars: ec2_output
+        var: ec2_output
       when: action == "create"
 
 # Creating Route53 DBS Records
