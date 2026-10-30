@@ -17,6 +17,11 @@
         state: started
         enabled: yes
 
+    - name: install pymysql
+      ansible.builtin.dnf:
+        name: python3-PyMySQL
+        state: present
+
     - name: setup mysql root password
       community.mysql.mysql_user:
         name: root
