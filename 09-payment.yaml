@@ -7,16 +7,16 @@
     - name: install python314 python3.14-pip
       dnf:
         name:
-          - python314
-          - python3.14-pip
+          - python3.14
         state: present
 
     - name: print python version
-      command: python --version
-      args:
-        chdir: /app
+      command: python3.14 --version
       register: python_default
+    - debug:
+        var: python_default.stdout
 
+        
     - name: create roboshop system user
       user:
         name: roboshop
