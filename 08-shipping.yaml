@@ -98,7 +98,7 @@
       ansible.builtin.shell:
         mysql -h {{ mysql_host }} -uroot -p{{ mysql_root_password }} < /app/schema/shipping.sql
       register: schema_load
-      when: schema_load.rc == 0
+      changed_when: schema_load.rc == 0
 
     - name: start and enable shipping service
       systemd_service:
