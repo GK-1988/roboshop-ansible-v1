@@ -15,6 +15,27 @@
         name: nginx
         state: present
 
+    - name: Remove default nginx content
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: absent
+
+    - name: Recreate nginx html directory
+      ansible.builtin.file:
+        path: /usr/share/nginx/html
+        state: directory
+
+    - name: Download frontend artifact
+      ansible.builtin.get_url:
+        url: "https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/frontend-{{ app_version }}.zip"
+        dest: /tmp/frontend.zip
+
+    - name: Extract frontend artifact     
+      ansible.builtin.unarchive:
+        src: /tmp/frontend.zip
+        dest: /usr/share/nginx/html
+        remote_src: yes
+
     - name: start and enable nginx
       service:
         name: nginx
