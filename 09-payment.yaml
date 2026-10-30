@@ -17,5 +17,68 @@
         chdir: /app
       register: python_default
 
+    - name: create roboshop system user
+      user:
+        name: roboshop
+        system: true
+        shell: /sbin/nologin  
+        create_home: false
+        home: /app
+        comment: "roboshop system user"
+
+    - name: remove existing app directory
+      file:
+        path: /app
+        state: absent
+
+    - name: remove payment.zip
+      file:
+        path: /tmp/payment.zip
+        state: absent
+
+    - name:  create app directory
+      file:
+        path: /app
+        state: directory
+
+    - name: download payemtn application
+      get_url:
+        url: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/payment-{{ app_version }}.zip
+        dest: /tmp/payment.zip
+
+    - name: unzip the payment receipe
+      unarchive:
+        src: /tmp/payment.zip
+        dest: /app
+        remote_src: yes
+
+    - name: Create Python virtual environment
+      ansible.builtin.command:
+        cmd: python3.14 -m venv /app/.venv
+        creates: /app/.venv/bin/activate
+      args:
+        chdir: /app
+
+    - name: Install Python dependencies
+      ansible.builtin.command:
+        cmd: /app/.venv/bin/pip install -r requirements.txt
+      args:
+        chdir: /app
+
+    - name: copy payment service file
+      ansible.builtin.template:
+        src: payment.service.j2
+        dest: /etc/systemd/system/payment.service
+
+    - name: reload the daemon
+      systemd_service:
+        daemon_reload: true
+    
+    - name: start and enable payment service
+      systemd_service:
+        name: payment
+        state: restarted
+        enabled: yes
+
 
 
