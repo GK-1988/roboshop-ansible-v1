@@ -4,9 +4,9 @@
   become: yes
 
   tasks:
-    - name: install golong
+    - name: install golang
       dnf:
-        name: golong
+        name: golang
         state: present
 
     - name: display the version
@@ -16,7 +16,7 @@
         var: go_default.stdout
 
 
-    - name: create golong system user
+    - name: create golang system user
       user:
         name: roboshop
         system: true
