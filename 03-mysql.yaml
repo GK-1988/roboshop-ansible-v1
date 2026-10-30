@@ -29,14 +29,16 @@
         password: "{{ mysql_root_password }}"
         check_implicit_admin: true
         state: present
+        login_unix_socket: /var/lib/mysql/mysql.sock
 
     # - name: set mysql root user password
     #   command: mysql_secure_installation --set-root-pass "{{ mysql_root_password }}"
-# mising collection
-# mysql_user belongs to the community.mysql collection
-# ansible-galaxy collection install community.mysql
-# Missing Python MySQL library on target host
-# sudo dnf install python3-PyMySQL
+
+
+# fatal: [mysql.opsify.online]: FAILED! => changed=false
+# msg: (1524, "Plugin 'mysql_native_password' is not loaded")
+# solution---login_unix_socket: /var/lib/mysql/mysql.sock
+
 
 
         
