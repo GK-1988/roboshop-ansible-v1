@@ -9,8 +9,8 @@
         name: golang
         state: present
 
-    - name: display the version
-      command: go --version
+    - name: display go version
+      command: go version
       register: go_default
     - debug:
         var: go_default.stdout
