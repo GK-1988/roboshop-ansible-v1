@@ -68,9 +68,9 @@
         chdir: /app
 
     - name: check generated file
-      shell: ls-ltr /app/target
+      shell: ls -ltr /app/target
       register: output
-      debug:
+    - debug:
         var: output.stdout_lines
 
     - name: rename jar file
