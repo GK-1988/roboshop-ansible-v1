@@ -15,9 +15,9 @@
         name: nginx
         state: present
 
-    - name: start and enable frontend
+    - name: start and enable nginx
       service:
-        name: frontend
+        name: nginx
         state: restarted
         enabled: yes  
 
