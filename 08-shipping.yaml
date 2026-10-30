@@ -15,11 +15,15 @@
           - maven-openjdk25 #instaling this, so that we no need to set JAV_HOME again
         state: present
 
+    - name: set java 25 as default
+      shell: |
+        alternatives --set java $(alternatives --display java | grep java-25 | head -1 | awk '{print $1}')
+
     - name: create roboshop system user
       user:
         name: roboshop
         system: true
-        shell: /sbin/nologin
+        shell: /sbin/nologin  
         create_home: false
         home: /app
         comment: "roboshop system user"

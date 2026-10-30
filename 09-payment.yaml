@@ -1,0 +1,21 @@
+---
+- name: configuring payment server
+  hosts: payment
+  become: yes
+
+  tasks:
+    - name: install python314 python3.14-pip
+      dnf:
+        name:
+          - python314
+          - python3.14-pip
+        state: present
+
+    - name: print python version
+      command: python --version
+      args:
+        chdir: /app
+      register: python_default
+
+
+
