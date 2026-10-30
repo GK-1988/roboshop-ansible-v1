@@ -36,7 +36,16 @@
         dest: /usr/share/nginx/html
         remote_src: yes
 
-    - name: start and enable nginx
+    - name: copy roboshop repo
+      copy:
+        src: roboshop.repo
+        dest: /etc/nginx/default.d/roboshop.conf
+
+    - name: Validate nginx configuration
+      ansible.builtin.command: nginx -t
+      changed_when: false
+
+    - name: re-start and enable nginx
       service:
         name: nginx
         state: restarted
