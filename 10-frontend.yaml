@@ -37,8 +37,8 @@
         remote_src: yes
 
     - name: copy roboshop repo
-      copy:
-        src: roboshop.repo
+      template:
+        src: roboshop.repo.j2
         dest: /etc/nginx/default.d/roboshop.conf
 
     - name: Validate nginx configuration
