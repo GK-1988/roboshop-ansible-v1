@@ -1,0 +1,104 @@
+---
+- name: configuring shipping server
+  hosts: shipping
+  become: yes
+
+  tasks:
+    - name: enable maven 3.9
+      command: dnf module enable maven:3.9 -y
+
+    - name: install maven and java25
+      dnf:
+        name: maven
+        state: present
+
+    - name: create roboshop system user
+      user:
+        name: roboshop
+        system: true
+        shell: /sbin/nologin
+        create_home: false
+        home: /app
+        comment: "roboshop system user"
+
+    - name: remove existing app directory
+      file:
+        path: /app
+        state: absent
+
+    - name: remove shipping.zip
+      file:
+        path: /tmp/shipping.zip
+        state: absent
+
+    - name:  create app directory
+      file:
+        path: /app
+        state: directory
+
+    - name: download shipping application
+      get_url:
+        url: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/shipping-{{ app_version }}.zip
+        dest: /tmp/shipping.zip
+
+    - name: unzip the shipping receipe
+      unarchive:
+        src: /tmp/shipping.zip
+        dest: /app
+        remote_src: yes
+
+    - name: install mvn dependencies
+      ansible.builtin.command: mvn clean package
+      args:
+        chdir: /app
+
+    - name: rename jar file
+      ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
+      args:
+        chdir: /app
+
+
+    - name: copy shipping service file
+      ansible.builtin.template:
+        src: shipping.service.j2
+        dest: /etc/systemd/system/shipping.service
+
+    - name: reload the daemon
+      systemd_service:
+        daemon_reload: true
+
+    - name: Install Mysql Clinet
+      ansible.builtin.dnf:
+        name: mysql
+        state: present
+
+    - name: Load shipping schema
+      ansible.builtin.shell:
+        mysql -h {{ mysql_host }} -uroot -p{{ mysql_root_password }} < /app/schema/shipping.sql
+      register: schema_load
+      when: schema_load.rc == 0
+
+    - name: start and enable shipping service
+      systemd_service:
+        name: shipping
+        state: restarted
+        enabled: yes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
