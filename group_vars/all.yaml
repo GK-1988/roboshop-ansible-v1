@@ -1,5 +1,5 @@
-ansible_user: ec2-user
-ansible_password: DevOps321
+# ansible_user: ec2-user
+# ansible_password: DevOps321
 mongodb_host: mongodb.opsify.online
 redis_host: redis.opsify.online
 mysql_host: mysql.opsify.online
@@ -10,3 +10,5 @@ cart_host: cart.opsify.online
 shipping_host: shipping.opsify.online
 payment_host: payment.opsify.online
 
+ansible_user: "{{ lookup('amazon.aws.aws_secret', 'roboshop/dev/ansible', region='us-east-1') | from_json | json_query('ansible_user') }}"
+ansible_password: "{{ lookup('amazon.aws.aws_secret', 'roboshop/dev/ansible', region='us-east-1') | from_json | json_query('ansible_password') }}"
