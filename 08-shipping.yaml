@@ -16,7 +16,7 @@
         state: present
 
     - name: set java 25 as default
-      shell: |
+      shell: 
         alternatives --set java $(alternatives --display java | grep java-25 | head -1 | awk '{print $1}')
 
     - name: create roboshop system user
@@ -77,7 +77,7 @@
     - debug:
         var: output.stdout_lines
 
-    - name: rename jar file
+    - name: moveing jar file securely to /app directory
       copy:
         src: /app/target/shipping.jar
         dest: /app/shipping.jar
