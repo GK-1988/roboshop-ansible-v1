@@ -12,3 +12,4 @@ payment_host: payment.opsify.online
 
 ansible_user: "{{ lookup('amazon.aws.aws_secret', 'roboshop/dev/ansible', region='us-east-1') | from_json | json_query('ansible_user') }}"
 ansible_password: "{{ lookup('amazon.aws.aws_secret', 'roboshop/dev/ansible', region='us-east-1') | from_json | json_query('ansible_password') }}"
+mysql_root_password: " {{ lookup('amazon.aws.aws_secret', 'roboshop')}}"
